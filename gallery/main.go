@@ -195,13 +195,18 @@ func (g *Gallery) Create(profile *OctoProfile) error {
 
 func (g Gallery) Update(profile *OctoProfile) error {
 	db := GetDb()
-	query := fmt.Sprintf("UPDATE gallery SET title = '%s', description = '%s' WHERE id = %d and login = '%s'", g.Title, g.Description, g.ID, profile.Login)
+	my_query := "UPDATE gallery SET title = ?, description = ? WHERE id = ? and login = ?"
 
-	stmt, err := db.Prepare(query)
+	stmt, err := db.Prepare(my_query)
 	if err != nil {
 		return err
 	}
 	defer stmt.Close()
+
+	_, err = stmt.Exec(g.Title, g.Description, g.ID, profile.Login)
+	if err != nil {
+		return err
+	}
 
 	r, err := stmt.Exec()
 	if err != nil {
