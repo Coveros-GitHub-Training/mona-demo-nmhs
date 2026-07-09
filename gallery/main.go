@@ -195,9 +195,9 @@ func (g *Gallery) Create(profile *OctoProfile) error {
 
 func (g Gallery) Update(profile *OctoProfile) error {
 	db := GetDb()
-	query := "UPDATE gallery SET title = ?, description = ? WHERE id = ? and login = ?"
+	my_query := "UPDATE gallery SET title = ?, description = ? WHERE id = ? and login = ?"
 
-	stmt, err := db.Prepare(query)
+	stmt, err := db.Prepare(my_query)
 	if err != nil {
 		return err
 	}
